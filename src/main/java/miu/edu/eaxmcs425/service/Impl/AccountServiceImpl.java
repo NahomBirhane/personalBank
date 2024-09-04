@@ -2,6 +2,7 @@ package miu.edu.eaxmcs425.service.Impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import miu.edu.eaxmcs425.exception.CustomerNotFoundException;
 import miu.edu.eaxmcs425.model.Account;
 import miu.edu.eaxmcs425.model.Customer;
 import miu.edu.eaxmcs425.repository.AccountRepository;
@@ -32,7 +33,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public CustomerWithAccounts createAccount(AccountRequest accountRequest, Integer customerId) {
         Customer customer = customerRepository.findById(customerId)
-                                              .orElseThrow(() -> new IllegalArgumentException("Customer not found"));
+                                              .orElseThrow(() -> new CustomerNotFoundException("Customer not found by Id: "+customerId));
 
         Account account = Account.builder()
                                  .accountNumber(accountRequest.getAccountNumber())

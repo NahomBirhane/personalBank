@@ -2,6 +2,7 @@ package miu.edu.eaxmcs425.service.Impl;
 
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+import miu.edu.eaxmcs425.exception.CustomerNotFoundException;
 import miu.edu.eaxmcs425.model.Customer;
 import miu.edu.eaxmcs425.repository.AccountRepository;
 import miu.edu.eaxmcs425.repository.CustomerRepository;
@@ -45,7 +46,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerWithAccounts findCustomerById(Integer id) {
 
         Customer customer = customerRepository.findById(id)
-                                              .orElseThrow(() -> new IllegalArgumentException("Customer not found"));
+                                              .orElseThrow(() -> new CustomerNotFoundException("Customer not found by ID: "+id));
 
         CustomerWithAccounts customerWithAccounts = modelMapper.map(customer, CustomerWithAccounts.class);
 
